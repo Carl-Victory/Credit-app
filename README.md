@@ -1,28 +1,29 @@
 
-#Loan Management System API
+# Loan Management System API
+
 Welcome to the Loan Management System API, a backend service designed to handle loan applications, approvals, repayments, and user management. This API is built using Node.js, Express, and MongoDB, and includes features such as flexible loan repayments, automatic penalty handling, and user authentication.
 
-##Features
+## Features
 
--###User Management:
+- ### User Management:
     -User registration, login, and logout.
     -KYC (Know Your Customer) submission and verification.
     -Blacklisting users for fraudulent activities.
--###Loan Management:
+- ### Loan Management:
     -Users can apply for loans with a specified amount and tenure.
     -Admins can approve or reject loan applications.
     -Flexible loan repayment system (users can repay any amount at any time before the due date).
     -Automatic penalties for overdue repayments.
--###Repayment Management:
+- ### Repayment Management:
     -Users can view their repayment history.
     -Automatic updates for overdue repayments, including penalty application and notifications.
--###Admin Features:
+- ### Admin Features:
     -Admins can flag users as blacklisted.
     -Admins can generate reports and view users who owe loans.
--###Notifications:
+- ### Notifications:
     -SMS notifications for loan approvals, rejections, overdue repayments, and penalties.
-##Project Architecture
-###1. Folder Structure
+## Project Architecture
+### 1. Folder Structure
 ```
 loan/
 ├── controllers/         # Contains business logic for handling API requests
@@ -50,103 +51,103 @@ loan/
 ├── index.js             # Entry point of the application
 └── package.json         # Project dependencies and scripts
 ```
-###2. Key Components
+### 2. Key Components
 
-###Controllers
+### Controllers
 
--userController.js:
-    -Handles user registration, login, logout, and loan retrieval.
+- userController.js:
+    - Handles user registration, login, logout, and loan retrieval.
 
--loanController.js:
-    -Manages loan applications, approvals, repayments, and overdue penalties.
+- loanController.js:
+    - Manages loan applications, approvals, repayments, and overdue penalties.
 
--adminController.js:
-    -Admin-only features like blacklisting users and generating reports.
+- adminController.js:
+    - Admin-only features like blacklisting users and generating reports.
 
--kycController.js:
-    -Handles KYC submissions and updates user verification status.
+- kycController.js:
+    - Handles KYC submissions and updates user verification status.
 
-###Models
+### Models
 
--userModel.js:
-    -Stores user information, including kycStatus and blacklisted status.
+- userModel.js:
+    - Stores user information, including kycStatus and blacklisted status.
 
--loanModel.js:
-    -Tracks loan details such as amount, totalRepayment, repaidAmount, status, and dueDate.
+- loanModel.js:
+    - Tracks loan details such as amount, totalRepayment, repaidAmount, status, and dueDate.
 
--repaymentModel.js:
-    -Tracks individual repayment records (if needed for detailed repayment history).
+- repaymentModel.js:
+    - Tracks individual repayment records (if needed for detailed repayment history).
 
--kycModel.js:
-    -Stores KYC data such as employer, salary, and bank account details.
+- kycModel.js:
+    - Stores KYC data such as employer, salary, and bank account details.
 
-###Middleware
+### Middleware
 
--authMiddleware.js:
-    -Protects routes by verifying JWT tokens and user roles.
+- authMiddleware.js:
+    - Protects routes by verifying JWT tokens and user roles.
 
--errorHandler.js:
-    -Centralized error handling for API responses.
+- errorHandler.js:
+    - Centralized error handling for API responses.
 
-###Services
--payment.js:
-    -Handles payment processing using Stripe.
+### Services
+- payment.js:
+    - Handles payment processing using Stripe.
 
--scheduler.js:
-    -Automates tasks like updating overdue repayments and applying penalties.
+- scheduler.js:
+    - Automates tasks like updating overdue repayments and applying penalties.
 
--smsService.js:
-    -Sends SMS notifications to users for important events.
+- smsService.js:
+    - Sends SMS notifications to users for important events.
 
-##Project Logic
+## Project Logic
 
-###1. Loan Application
+### 1. Loan Application
 
--Users apply for loans by specifying the amount and tenureDays.
--The system calculates the totalRepayment using compound interest (0.04% per day).
--Loans are saved with a status of "pending" until approved by an admin.
+- Users apply for loans by specifying the amount and tenureDays.
+- The system calculates the totalRepayment using compound interest (0.04% per day).
+- Loans are saved with a status of "pending" until approved by an admin.
 
-###2. Loan Approval
+### 2. Loan Approval
 
--Admins can approve or reject loans.
--Approved loans are marked with a status of "approved".
--Users are notified via SMS upon approval or rejection.
+- Admins can approve or reject loans.
+- Approved loans are marked with a status of "approved".
+- Users are notified via SMS upon approval or rejection.
 
-###3. Loan Repayment
+### 3. Loan Repayment
 
--Users can repay any amount at any time before the due date.
--The repaidAmount field in the loan record is updated dynamically.
--If the repaidAmount equals or exceeds the totalRepayment, the loan is marked as "repaid".
+- Users can repay any amount at any time before the due date.
+- The repaidAmount field in the loan record is updated dynamically.
+- If the repaidAmount equals or exceeds the totalRepayment, the loan is marked as "repaid".
 
-###4. Automatic Penalty Handling
+### 4. Automatic Penalty Handling
 
--The scheduler.js service runs daily to check for overdue loans.
--Overdue loans are marked as "late", and a penalty is added to the totalRepayment.
--Users are notified via SMS about the penalty.
+- The scheduler.js service runs daily to check for overdue loans.
+- Overdue loans are marked as "late", and a penalty is added to the totalRepayment.
+- Users are notified via SMS about the penalty.
 
-###5. Repayment History
+### 5. Repayment History
 
--Users can view their repayment history for a specific loan.
--If no repayments have been made, the system returns a message: "No repayments have been made."
+- Users can view their repayment history for a specific loan.
+- If no repayments have been made, the system returns a message: "No repayments have been made."
 
-###6. Blacklisting Users
+### 6. Blacklisting Users
 
--Admins can flag users as blacklisted.
--Blacklisted users cannot apply for new loans.
+- Admins can flag users as blacklisted.
+- Blacklisted users cannot apply for new loans.
 
 
-##Setup Instructions
+## Setup Instructions
 
-###1. Clone the Repository
+### 1. Clone the Repository
 ```
 git clone https://github.com/your-username/loan-management-system.git
 cd loan-management-system
 ```
-###2. Install Dependencies
+### 2. Install Dependencies
 ```
 npm install
 ```
-###3. Set Up Environment Variables
+### 3. Set Up Environment Variables
 Create a .env file in the root directory and add the following:
 ```
 PORT=3000
@@ -159,24 +160,24 @@ TWILIO_WHATSAPP_NUMBER=
 STRIPE_TEST_KEY=your_stripe_test_key
 ```
 
-###4. Start the Server
+### 4. Start the Server
 ```
 npm start
 ```
-###5. Test the API
+### 5. Test the API
 Use tools like Postman or cURL to test the endpoints.
 
-##Future Enhancements
+## Future Enhancements
 
 -Add email notifications as an alternative to SMS.
 -Implement loan analytics and reporting dashboards.
 -Add support for multiple currencies in loan repayments.
 -Enhance security with rate limiting and input validation.
 
-##Contributing
+## Contributing
 Contributions are welcome! Please fork the repository and submit a pull request with your changes.
 
-##License
+## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
